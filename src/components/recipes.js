@@ -12,20 +12,34 @@ export default function Recipe({ categories, foods }) {
 
   return (
     <View style={styles.container}>
-      <View testID="recipesDisplay">
-            
-      </View>
+    <View testID="recipesDisplay">
+  <FlatList
+    data={foods}
+    keyExtractor={(item, index) => item.idMeal?.toString() || index.toString()}
+    numColumns={2}
+    renderItem={renderItem}
+  />
+</View>
     </View>
   );
 }
 
 const ArticleCard = ({ item, index, navigation }) => {
   return (
-    <View
-      style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15}]} testID="articleDisplay"
-    >
-   
-    </View>
+   <View style={[styles.cardContainer, { paddingLeft: 20, paddingRight: 15 }]} testID="articleDisplay">
+  <TouchableOpacity
+    onPress={() => navigation.navigate("RecipeDetail", { recipe: item })}
+  >
+    <Image
+      source={{ uri: item.recipeImage }}
+      style={[styles.articleImage, { height: hp(25) }]}
+    />
+    <Text style={styles.articleText}>{item.recipeName}</Text>
+    <Text style={styles.articleDescription}>
+      {item.recipeInstructions?.substring(0, 40)}...
+    </Text>
+  </TouchableOpacity>
+</View>
   );
 };
 
